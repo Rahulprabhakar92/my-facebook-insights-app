@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Dropdown from "./components/Dropdown";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 
 export default function Home() {
@@ -72,7 +73,8 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center ">
           {profile && (
             <div className="flex flex-col gap-10">
-              <img src={profile.picture.data.url} alt="Profile Pic" width={100} height={100} className="w-40 h-40"/>
+              <Image src={profile.picture.data.url} alt="Profile Pic" width={100} height={100} className="w-40 h-40"/>
+
               <CardTitle className="text-3xl mb-4">{profile.name}</CardTitle>
             </div>
           )}
