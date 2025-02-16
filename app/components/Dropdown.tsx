@@ -8,16 +8,12 @@ export default function Dropdown({pages}:{pages:FacebookPage[]}){
 
     const [selectedPage, setSelectedPage] = useState<string>("");
     const [pageInsights, setPageInsights] = useState({});
-    useEffect(()=>{
-        if(selectedPage){
-            fetchInsigtpage(selectedPage)}
-    },[selectedPage])
-
+   
     const fetchInsigtpage=async(selectedPage:string)=>{
-
-      const pageToken = pages.find(pages => pages.id === selectedPage)?.access_token;
+      const pageToken = pages.find(page => page.id === selectedPage)?.access_token;
       console.log("Pages Data:", pages);
-console.log("Selected Page:", selectedPage);
+      console.log("Selected Page:", selectedPage);
+
 
 if (!pageToken) {
     console.error("Error: No Page Access Token found for selected page");
@@ -43,7 +39,7 @@ console.log("Using Page Token:", pageToken);
     .then(response => {
       if (response.data && response.data.data) {
         console.log(response.data.data)
-        const insights: Record<string, null> = {};
+        const insights: Record<string, any[]> = {};
         // @ts-expect-error This is needed because TypeScript fails to infer the correct type
         response.data.data.forEach((item) => {
           insights[item.name] = item.values;
@@ -60,6 +56,12 @@ console.log("Using Page Token:", pageToken);
     });
 
   };
+  useEffect(()=>{
+    if(selectedPage){
+        fetchInsigtpage(selectedPage)
+      }
+    },[selectedPage])
+
 
    return( 
     <div>

@@ -7,7 +7,7 @@ import {
   } from "@/components/ui/card"
 import { FacebookPage } from "@/types/types";
 import { FacebookProfile } from "next-auth/providers/facebook";
-import { SessionContextValue, useSession } from "next-auth/react";
+import {  useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Dropdown from "./components/Dropdown";
 import { Button } from "@/components/ui/button";
@@ -56,7 +56,6 @@ export default function Home() {
          }
        })
        .catch((error) => console.error("Error fetching Facebook pages:", error));
-
     }
   }, [session]);
 
