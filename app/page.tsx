@@ -19,16 +19,10 @@ export default function Home() {
   const { data: session } = useSession();
   const [profile, setProfile] = useState<FacebookProfile>();
   const [pages, setPages] = useState<FacebookPage[]>([]);
-
-
-
-  
-  
-
   useEffect(() => {
     // @ts-expect-error This is needed because TypeScript fails to infer the correct type
     if (session?.accessToken) {
-      // Fetch user profile
+
       // @ts-expect-error This is needed because TypeScript fails to infer the correct type
       fetch(`https://graph.facebook.com/me?fields=id,name,picture&access_token=${session.accessToken}`)
         .then((res) => res.json())
@@ -36,7 +30,7 @@ export default function Home() {
 
 
 
-      // Fetch managed pages
+
       // @ts-expect-error This is needed because TypeScript fails to infer the correct type
        fetch(`https://graph.facebook.com/me/accounts?access_token=${session.accessToken}`)
        .then((res) => res.json())
