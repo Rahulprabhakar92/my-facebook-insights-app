@@ -20,7 +20,6 @@ export default function Home() {
   const [profile, setProfile] = useState<FacebookProfile>();
   const [pages, setPages] = useState<FacebookPage[]>([]);
 
-  const token = (session as unknown as { accessToken: string })?.accessToken;
 
 
   
