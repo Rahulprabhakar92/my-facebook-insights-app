@@ -13,6 +13,9 @@ import { FacebookProfile } from "next-auth/providers/facebook";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Dropdown from "./components/Dropdown";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 
 export default function Home() {
   const { data: session } = useSession<any>();
@@ -20,6 +23,8 @@ export default function Home() {
   const [pages, setPages] = useState<FacebookPage[]>([]);
 
   const token = (session as unknown as { accessToken: string })?.accessToken;
+
+
   
   
 
@@ -78,7 +83,13 @@ export default function Home() {
         </div>
     </div>
       ) : (
-        <p>Please sign in.</p>
+        <div>
+        <p>Please sign in</p>
+        
+<Link href="/auth/sign-in">
+  <Button>Sign In</Button>
+</Link>
+        </div>
       )}
          </Card>
     </div>
