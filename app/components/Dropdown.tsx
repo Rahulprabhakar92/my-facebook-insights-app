@@ -4,14 +4,14 @@ import axios from 'axios'
   
 
 export default function Dropdown({pages}:{pages:FacebookPage[]}){
+  
 
     const [selectedPage, setSelectedPage] = useState<string>("");
     const [pageInsights, setPageInsights] = useState({});
     useEffect(()=>{
         if(selectedPage){
             fetchInsigtpage(selectedPage)}
-          //@ts-expect-error
-    },[selectedPage,pages.accesstoken])
+    },[selectedPage,pages])
 
     const fetchInsigtpage=async(selectedPage:string)=>{
 
@@ -43,10 +43,9 @@ console.log("Using Page Token:", pageToken);
     .then(response => {
       if (response.data && response.data.data) {
         console.log(response.data.data)
-        const insights = {};
+        const insights: Record<string, any> = {};
         //@ts-expect-error
         response.data.data.forEach((item) => {
-          //@ts-expect-error
           insights[item.name] = item.values;
         });
         setPageInsights(insights);
