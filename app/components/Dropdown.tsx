@@ -11,7 +11,7 @@ export default function Dropdown({pages}:{pages:FacebookPage[]}){
     useEffect(()=>{
         if(selectedPage){
             fetchInsigtpage(selectedPage)}
-    },[selectedPage,pages])
+    },[selectedPage])
 
     const fetchInsigtpage=async(selectedPage:string)=>{
 
