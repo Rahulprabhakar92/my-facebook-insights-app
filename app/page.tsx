@@ -78,7 +78,7 @@ export default function Home() {
               <CardTitle className="text-3xl mb-4">{profile.name}</CardTitle>
             </div>
           )}
-          <Dropdown pages={pages} token={token}/>
+          <Dropdown pages={pages} />
         </div>
         <div>
             

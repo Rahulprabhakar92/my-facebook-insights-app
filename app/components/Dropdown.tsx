@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
   
 
-export default function Dropdown({pages,token}:{pages:FacebookPage[],token:string}){
+export default function Dropdown({pages}:{pages:FacebookPage[]}){
 
     const [selectedPage, setSelectedPage] = useState<string>("");
     const [pageInsights, setPageInsights] = useState({});
     useEffect(()=>{
         if(selectedPage){
           //@ts-ignore
-            fetchInsigtpage(selectedPage,pages.accesstoken)}
+            fetchInsigtpage(selectedPage)}
             //@ts-ignore
     },[selectedPage,pages.accesstoken])
 
-    const fetchInsigtpage=async(selectedPage:string,accessToken:string)=>{
+    const fetchInsigtpage=async(selectedPage:string)=>{
 
       const pageToken = pages.find(pages => pages.id === selectedPage)?.access_token;
       console.log("Pages Data:", pages);
