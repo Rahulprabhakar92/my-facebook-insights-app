@@ -1,13 +1,27 @@
 "use client";
 
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+import { FacebookPage } from "@/types/types";
+import { FacebookProfile } from "next-auth/providers/facebook";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Dropdown from "./components/Dropdown";
 
 export default function Home() {
-  const { data: session } = useSession();
-  const [profile, setProfile] = useState<any>(null);
-  const [pages, setPages] = useState<any[]>([]);
-  const [selectedPage, setSelectedPage] = useState<string>("");
+  const { data: session } = useSession<any>();
+  const [profile, setProfile] = useState<FacebookProfile>();
+  const [pages, setPages] = useState<FacebookPage[]>([]);
+
+  const token = (session as unknown as { accessToken: string })?.accessToken;
+  
+  
 
   useEffect(() => {
     //@ts-ignore
@@ -18,42 +32,55 @@ export default function Home() {
         .then((res) => res.json())
         .then((data) => setProfile(data));
 
+
+
       // Fetch managed pages
        //@ts-ignore
-      fetch(`https://graph.facebook.com/me/accounts?access_token=${session.accessToken}`)
-        .then((res) => res.json())
-        .then((data) => setPages(data.data || []));
+       fetch(`https://graph.facebook.com/me/accounts?access_token=${session.accessToken}`)
+       .then((res) => res.json())
+       .then((data) => {
+         if (data && Array.isArray(data.data)) {
+           setPages(
+             data.data.map((page: any) => ({
+               id: page.id,
+               name: page.name,
+               access_token: page.access_token, 
+             }))
+           );
+         } else {
+           console.error("Error: No pages found or invalid response format", data);
+           setPages([]); 
+         }
+       })
+       .catch((error) => console.error("Error fetching Facebook pages:", error));
+
     }
   }, [session]);
 
   return (
     <div>
-      <h1>Welcome to My App</h1>
-      {session ? (
-        <>
-          {profile && (
-            <div>
-              <img src={profile.picture.data.url} alt="Profile Pic" width={100} />
-              <p>Signed in as {profile.name}</p>
-            </div>
-          )}
+      <Card>
+  <CardHeader>Facebook Account</CardHeader>
 
-          {/* Page Selection Dropdown */}
-          {pages.length > 0 && (
-            <div>
-              <label>Select a Page:</label>
-              <select onChange={(e) => setSelectedPage(e.target.value)} value={selectedPage}>
-                <option value="">Select a page</option>
-                {pages.map((page) => (
-                  <option key={page.id} value={page.id}>{page.name}</option>
-                ))}
-              </select>
+      {session ? (
+        <div>
+        <div className="flex flex-col justify-center items-center ">
+          {profile && (
+            <div className="flex flex-col gap-10">
+              <img src={profile.picture.data.url} alt="Profile Pic" width={100} height={100} className="w-40 h-40"/>
+              <CardTitle className="text-3xl mb-4">{profile.name}</CardTitle>
             </div>
           )}
-        </>
+          <Dropdown pages={pages} token={token}/>
+        </div>
+        <div>
+            
+        </div>
+    </div>
       ) : (
         <p>Please sign in.</p>
       )}
+         </Card>
     </div>
   );
 }
