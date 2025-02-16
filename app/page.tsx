@@ -30,10 +30,10 @@ export default function Home() {
   
 
   useEffect(() => {
-    //@ts-ignore
+    //@ts-expect-error
     if (session?.accessToken) {
       // Fetch user profile
-       //@ts-ignore
+       //@ts-expect-error
       fetch(`https://graph.facebook.com/me?fields=id,name,picture&access_token=${session.accessToken}`)
         .then((res) => res.json())
         .then((data) => setProfile(data));
@@ -41,7 +41,7 @@ export default function Home() {
 
 
       // Fetch managed pages
-       //@ts-ignore
+      //@ts-expect-error
        fetch(`https://graph.facebook.com/me/accounts?access_token=${session.accessToken}`)
        .then((res) => res.json())
        .then((data) => {

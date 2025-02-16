@@ -9,9 +9,8 @@ export default function Dropdown({pages}:{pages:FacebookPage[]}){
     const [pageInsights, setPageInsights] = useState({});
     useEffect(()=>{
         if(selectedPage){
-          //@ts-ignore
             fetchInsigtpage(selectedPage)}
-            //@ts-ignore
+          //@ts-expect-error
     },[selectedPage,pages.accesstoken])
 
     const fetchInsigtpage=async(selectedPage:string)=>{
@@ -34,7 +33,6 @@ console.log("Using Page Token:", pageToken);
 
     axios.get(`https://graph.facebook.com/${selectedPage}/insights`, {
       params: {
-        //@ts-ignore
         access_token: pageToken,
         metric: metrics,
         since: since,
@@ -46,9 +44,9 @@ console.log("Using Page Token:", pageToken);
       if (response.data && response.data.data) {
         console.log(response.data.data)
         const insights = {};
-        //@ts-ignore
+        //@ts-expect-error
         response.data.data.forEach((item) => {
-            //@ts-ignore
+          //@ts-expect-error
           insights[item.name] = item.values;
         });
         setPageInsights(insights);
