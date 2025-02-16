@@ -2,15 +2,12 @@
 
 import {
     Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
 import { FacebookPage } from "@/types/types";
 import { FacebookProfile } from "next-auth/providers/facebook";
-import { useSession } from "next-auth/react";
+import { SessionContextValue, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Dropdown from "./components/Dropdown";
 import { Button } from "@/components/ui/button";
@@ -19,7 +16,7 @@ import Image from "next/image";
 
 
 export default function Home() {
-  const { data: session } = useSession<any>();
+  const { data: session } = useSession();
   const [profile, setProfile] = useState<FacebookProfile>();
   const [pages, setPages] = useState<FacebookPage[]>([]);
 
@@ -30,10 +27,10 @@ export default function Home() {
   
 
   useEffect(() => {
-    //@ts-expect-error
+    // @ts-expect-error This is needed because TypeScript fails to infer the correct type
     if (session?.accessToken) {
       // Fetch user profile
-       //@ts-expect-error
+      // @ts-expect-error This is needed because TypeScript fails to infer the correct type
       fetch(`https://graph.facebook.com/me?fields=id,name,picture&access_token=${session.accessToken}`)
         .then((res) => res.json())
         .then((data) => setProfile(data));
@@ -41,13 +38,13 @@ export default function Home() {
 
 
       // Fetch managed pages
-      //@ts-expect-error
+      // @ts-expect-error This is needed because TypeScript fails to infer the correct type
        fetch(`https://graph.facebook.com/me/accounts?access_token=${session.accessToken}`)
        .then((res) => res.json())
        .then((data) => {
          if (data && Array.isArray(data.data)) {
            setPages(
-             data.data.map((page: any) => ({
+             data.data.map((page:FacebookPage) => ({
                id: page.id,
                name: page.name,
                access_token: page.access_token, 

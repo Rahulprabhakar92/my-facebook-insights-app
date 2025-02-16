@@ -25,7 +25,7 @@ export const authOptions:NextAuthOptions = {
         return token;
       },
       async session({ session, token }) {
-        //@ts-expect-error
+        // @ts-expect-error This is needed because TypeScript fails to infer the correct type
         session.accessToken = token.accessToken; // Ensure session has accessToken
         return session;
       },
