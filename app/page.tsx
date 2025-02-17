@@ -7,7 +7,7 @@ import {
   } from "@/components/ui/card"
 import { FacebookPage } from "@/types/types";
 import { FacebookProfile } from "next-auth/providers/facebook";
-import {  useSession } from "next-auth/react";
+import {  signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Dropdown from "./components/Dropdown";
 import { Button } from "@/components/ui/button";
@@ -76,6 +76,9 @@ export default function Home() {
             </div>
           )}
           <Dropdown pages={pages} />
+          <Button  color="secondary" onClick={() => signOut()}>
+                Sign Out
+              </Button>
         </div>
       ) : (
         <div className="flex flex-col items-center space-y-4 p-4">
