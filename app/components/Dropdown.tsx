@@ -69,40 +69,40 @@ console.log("Using Page Token:", pageToken);
 
    return( 
     <div className="flex flex-col items-center w-full space-y-4">
-
-    {pages.length > 0 && (
-      <div className="w-full max-w-sm">
-        <select 
-          onChange={(e) => setSelectedPage(e.target.value)} 
-          value={selectedPage} 
-          className="w-full p-2 border rounded-md"
-        >
-          <option value="">Select a page</option>
-          {pages.map((page) => (
-            <option key={page.id} value={page.id}>{page.name}</option>
-          ))}
-        </select>
-      </div>
-    )}
-  
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-      {Object.keys(pageInsights).length > 0 ? (
-        Object.entries(pageInsights).map(([metric, values]) => (
-          <div key={metric} className="bg-white shadow-md rounded-lg p-4 text-center">
-            <h3 className="text-lg font-semibold capitalize">{metric.replace(/_/g, ' ')}</h3>
-            <p className="text-gray-700 text-sm">
-              {Array.isArray(values) && values.length > 0
-                ? values[values.length - 1].value
-                : "No data available"}
-            </p>
-          </div>
-        ))
-      ) : (
-        <p className="text-gray-500 text-center w-full">No insights available</p>
-      )}
+  {/* Dropdown Section */}
+  {pages.length > 0 && (
+    <div className="w-full max-w-sm">
+      <select 
+        onChange={(e) => setSelectedPage(e.target.value)} 
+        value={selectedPage} 
+        className="w-full p-2 border rounded-md"
+      >
+        <option value="">Select a page</option>
+        {pages.map((page) => (
+          <option key={page.id} value={page.id}>{page.name}</option>
+        ))}
+      </select>
     </div>
+  )}
+
+  {/* Insights Section - Horizontal Layout */}
+  <div className="flex flex-wrap justify-start gap-4 w-full">
+    {Object.keys(pageInsights).length > 0 ? (
+      Object.entries(pageInsights).map(([metric, values]) => (
+        <div key={metric} className="bg-white shadow-md rounded-lg p-4 w-64">
+          <h3 className="text-lg font-semibold capitalize">{metric.replace(/_/g, ' ')}</h3>
+          <p className="text-gray-700 text-sm">
+            {Array.isArray(values) && values.length > 0
+              ? values[values.length - 1].value
+              : "No data available"}
+          </p>
+        </div>
+      ))
+    ) : (
+      <p className="text-gray-500 text-center w-full">No insights available</p>
+    )}
   </div>
+</div>
 
     )
 }
