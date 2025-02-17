@@ -53,36 +53,39 @@ export default function Home() {
   }, [session]);
 
   return (
-    <div>
-      <Card>
-  <CardHeader>Facebook Account</CardHeader>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <Card className="w-auto min-w max-w-md shadow-lg">
+      <CardHeader>
+        <h2 className="text-xl font-bold text-center">Facebook Account</h2>
+      </CardHeader>
 
       {session ? (
-        <div>
-        <div className="flex flex-col justify-center items-center ">
+        <div className="flex flex-col items-center p-4 space-y-6">
           {profile && (
-            <div className="flex flex-col gap-10">
-              <Image src={profile.picture.data.url} alt="Profile Pic" width={100} height={100} className="w-40 h-40"/>
-
-              <CardTitle className="text-3xl mb-4">{profile.name}</CardTitle>
+            <div className="flex flex-col items-center gap-4 w-f">
+              <Image
+                src={profile.picture.data.url}
+                alt="Profile Pic"
+                width={160}
+                height={160}
+                className="rounded-full"
+              />
+              <CardTitle className="text-3xl font-semibold">
+                {profile.name}
+              </CardTitle>
             </div>
           )}
           <Dropdown pages={pages} />
         </div>
-        <div>
-            
-        </div>
-    </div>
       ) : (
-        <div>
-        <p>Please sign in</p>
-        
-<Link href="/auth/sign-in">
-  <Button>Sign In</Button>
-</Link>
+        <div className="flex flex-col items-center space-y-4 p-4">
+          <p className="text-center text-gray-700">Please sign in</p>
+          <Link href="/auth/sign-in">
+            <Button>Sign In</Button>
+          </Link>
         </div>
       )}
-         </Card>
-    </div>
+    </Card>
+  </div>
   );
 }

@@ -23,8 +23,10 @@ if (!pageToken) {
 
 console.log("Using Page Token:", pageToken);
        
-    const since = Math.floor(new Date('2025-02-10').getTime() / 1000);
+    const since = Math.floor(new Date('2025-02-16').getTime() / 1000);
     const until = Math.floor(new Date().getTime() / 1000);
+    // const until =  Math.floor(new Date('2025-02-16').getTime() / 1000);
+
     const metrics = "page_fans,page_impressions,page_post_engagements,page_actions_post_reactions_like_total";
     const period = "day";
 
@@ -66,35 +68,41 @@ console.log("Using Page Token:", pageToken);
 
 
    return( 
-    <div>
+    <div className="flex flex-col items-center w-full space-y-4">
+
     {pages.length > 0 && (
-        <div>
-           
-          <select onChange={(e) => setSelectedPage(e.target.value)} value={selectedPage}>
-            <option value="">Select a page</option>
-            {pages.map((page) => (
-              <option key={page.id} value={page.id}>{page.name}</option>
-            ))}
-          </select>
-        </div>)}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {Object.keys(pageInsights).length > 0 ? (
-                    Object.entries(pageInsights).map(([metric, values]) => (
-                        <div key={metric} className="bg-white shadow-md rounded-lg p-4">
-                            <h3 className="text-lg font-semibold capitalize">{metric.replace(/_/g, ' ')}</h3>
-                            <p className="text-gray-700 text-sm">
-                                {/* Show latest available value */}
-                                {Array.isArray(values) && values.length > 0
-                                    ? values[values.length - 1].value
-                                    : "No data available"}
-                            </p>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-gray-500">No insights available</p>
-                )}
-            </div>
+      <div className="w-full max-w-sm">
+        <select 
+          onChange={(e) => setSelectedPage(e.target.value)} 
+          value={selectedPage} 
+          className="w-full p-2 border rounded-md"
+        >
+          <option value="">Select a page</option>
+          {pages.map((page) => (
+            <option key={page.id} value={page.id}>{page.name}</option>
+          ))}
+        </select>
       </div>
+    )}
+  
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+      {Object.keys(pageInsights).length > 0 ? (
+        Object.entries(pageInsights).map(([metric, values]) => (
+          <div key={metric} className="bg-white shadow-md rounded-lg p-4 text-center">
+            <h3 className="text-lg font-semibold capitalize">{metric.replace(/_/g, ' ')}</h3>
+            <p className="text-gray-700 text-sm">
+              {Array.isArray(values) && values.length > 0
+                ? values[values.length - 1].value
+                : "No data available"}
+            </p>
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-500 text-center w-full">No insights available</p>
+      )}
+    </div>
+  </div>
 
     )
 }
